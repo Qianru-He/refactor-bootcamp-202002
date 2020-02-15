@@ -3,6 +3,7 @@ package cc.xpbootcamp.warmup.fibonacci;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class FibonacciTest {
 	@Test
@@ -21,5 +22,11 @@ public class FibonacciTest {
 	@Test
 	void should_return_12586269025_when_index_50(){
 		assertEquals(12586269025L,FibonacciCalculator.calculate(50));
+	}
+
+	@Test
+	void should_throw_exception_when_index_less_than_1(){
+		assertThrows(IllegalArgumentException.class,()->FibonacciCalculator.calculate(0));
+		assertThrows(IllegalArgumentException.class,()->FibonacciCalculator.calculate(-1));
 	}
 }
