@@ -12,7 +12,9 @@ public class FibonacciTest {
 	}
 
 	@Test
-	void should_return_5_when_index_5(){
+	void should_return_corresponding_result(){
+		assertEquals(2,FibonacciCalculator.calculate(3));
 		assertEquals(5,FibonacciCalculator.calculate(5));
+		assertEquals(89,FibonacciCalculator.calculate(11));
 	}
 }
