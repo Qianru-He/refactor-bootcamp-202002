@@ -17,4 +17,9 @@ public class FibonacciTest {
 		assertEquals(5,FibonacciCalculator.calculate(5));
 		assertEquals(89,FibonacciCalculator.calculate(11));
 	}
+
+	@Test
+	void should_return_12586269025_when_index_50(){
+		assertEquals(12586269025L,FibonacciCalculator.calculate(50));
+	}
 }
