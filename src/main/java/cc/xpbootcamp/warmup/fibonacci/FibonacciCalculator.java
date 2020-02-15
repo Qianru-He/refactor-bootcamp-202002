@@ -5,6 +5,6 @@ public class FibonacciCalculator {
 		if (index == 1 || index == 2) {
 			return 1;
 		}
-		return 0;
+		return calculate(index - 2) + calculate(index - 1);
 	}
 }

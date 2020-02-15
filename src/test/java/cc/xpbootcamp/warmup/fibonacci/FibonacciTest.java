@@ -10,4 +10,9 @@ public class FibonacciTest {
 		assertEquals(1,FibonacciCalculator.calculate(1));
 		assertEquals(1,FibonacciCalculator.calculate(2));
 	}
+
+	@Test
+	void should_return_5_when_index_5(){
+		assertEquals(5,FibonacciCalculator.calculate(5));
+	}
 }
