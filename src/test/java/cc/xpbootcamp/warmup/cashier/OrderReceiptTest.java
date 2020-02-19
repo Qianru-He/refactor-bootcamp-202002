@@ -18,7 +18,6 @@ class OrderReceiptTest {
         OrderReceipt receipt = new OrderReceipt(order);
 
         String output = receipt.printReceipt();
-
         assertThat(output, containsString("Mr X"));
         assertThat(output, containsString("Chicago, 60601"));
     }
@@ -37,6 +36,15 @@ class OrderReceiptTest {
         assertThat(output, containsString("chocolate,20.0x1,20.0\n"));
         assertThat(output, containsString("税额：6.5"));
         assertThat(output, containsString("总价：71.5"));
+    }
+
+    @Test
+    void shouldPrintHeadersAndDivider() {
+        OrderReceipt receipt = getOrderReceipt();
+
+        String output = receipt.printReceipt();
+        assertThat(output,containsString("======老王超市，值得信赖======"));
+        assertThat(output,containsString("--------------------"));
     }
     @Test
     public void shouldOnSaleWhenWednesdays() throws ParseException {
