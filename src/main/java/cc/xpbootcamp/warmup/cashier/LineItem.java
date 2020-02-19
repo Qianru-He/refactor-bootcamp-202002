@@ -27,6 +27,6 @@ public class LineItem {
         return price * quantity;
     }
 	public String getItemInfo(){
-		return description+'\t'+price+'\t'+quantity+'\t'+totalAmount()+'\n';
+		return description+','+price+'x'+quantity+','+totalAmount()+'\n';
 	}
 }
