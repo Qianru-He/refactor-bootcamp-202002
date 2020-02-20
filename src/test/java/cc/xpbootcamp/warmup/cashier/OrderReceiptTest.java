@@ -39,7 +39,7 @@ class OrderReceiptTest {
     }
 
     @Test
-    void shouldPrintHeadersAndDivider() {
+    public void shouldPrintHeadersAndDivider() {
         OrderReceipt receipt = getOrderReceipt();
 
         String output = receipt.printReceipt();

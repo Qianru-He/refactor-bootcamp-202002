@@ -23,8 +23,6 @@ public class OrderReceipt {
 
 		printDate(output);
 
-		printCustomerData(output);
-
 		printsLineItems(output);
 
 		printsTheStateTax(output, order.calculateItemTax());
@@ -58,10 +56,6 @@ public class OrderReceipt {
 			output.append(lineItem.getItemInfo());
 		}
 		output.append("--------------------\n");
-	}
-
-	private void printCustomerData(StringBuilder output) {
-		output.append(order.getCustomerName()).append(order.getCustomerAddress()).append('\n');
 	}
 
 	private void printHeaders(StringBuilder output) {
