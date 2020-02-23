@@ -1,12 +1,15 @@
 package cc.xpbootcamp.warmup.cashier;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
+
+
 public class OrderReceipt {
+	private static final int DISCOUNT_DAY = 3;
+	private static final double DISCOUNT_RATE = 0.02;
 	private Order order;
+	private double discount = 0;
 	private Date date = new Date();
-	private static String ON_SALE_DAY = "星期三";
 
 	public OrderReceipt(Order order) {
 		this.order = order;
@@ -25,9 +28,7 @@ public class OrderReceipt {
 
 		output.append(printsLineItems());
 
-		output.append(printsTheStateTax(order.calculateItemTax()));
-
-		output.append(printFooter(order.calculateTotWithTax()));
+		output.append(printFooter());
 
 		return output.toString();
 	}
@@ -37,25 +38,23 @@ public class OrderReceipt {
 		return dateFormat.format(this.date) + '\n';
 	}
 
-	private String printFooter(double tot) {
+	private String printFooter() {
 		String footer = "";
-		double total = tot;
-		String dayForWeek = getDayForWeek();
-		if(isDiscount(dayForWeek)){
-			footer+="折扣："+tot*0.02+'\n';
-			total = total*0.98;
+		double total = order.calculateTotWithTax();
+
+		if(isDiscount()){
+			discount = total * DISCOUNT_RATE;
+			footer+="折扣："+ discount +'\n';
 		}
-		footer+="总价："+total+'\n';
+		footer+="税额："+order.calculateItemTax()+'\n'+
+				"总价："+(total - discount)+'\n';
 		return footer;
 	}
 
-	private boolean isDiscount(String dayForWeek) {
-		return dayForWeek.equals(ON_SALE_DAY);
+	private boolean isDiscount() {
+		return date.getDay()==DISCOUNT_DAY;
 	}
 
-	private String printsTheStateTax(double totSalesTx) {
-		return "税额："+totSalesTx+'\n';
-	}
 
 	private String printsLineItems() {
 		StringBuilder products = new StringBuilder();
@@ -70,19 +69,8 @@ public class OrderReceipt {
 		return products.toString();
 	}
 
-
-
 	private String  printHeaders() {
 		return "======老王超市，值得信赖======\n";
 	}
 
-	private String getDayForWeek() {
-		String[] weekDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-		int w = cal.get(Calendar.DAY_OF_WEEK) - 1;
-		if (w < 0)
-			w = 0;
-		return weekDays[w];
-	}
 }

@@ -61,7 +61,6 @@ class OrderReceiptTest {
         receipt.setDate(date);
 
         String output = receipt.printReceipt();
-        System.out.println(output);
         assertThat(output, containsString("税额：6.5"));
         assertThat(output, containsString("折扣：1.43"));
         assertThat(output, containsString("总价：70.07"));
