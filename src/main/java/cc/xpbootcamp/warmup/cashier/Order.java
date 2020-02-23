@@ -27,21 +27,17 @@ public class Order {
 	}
 
 
-	double calculateTotWithTax() {
-		double total = 0d;
-		for (LineItem lineItem : getLineItems()) {
+	double calculateTotalPrice() {
+		return calculateAmountWithoutTaxAndDiscount()+calculateItemTax();
+	}
 
-			total += lineItem.getTotalAmount() + lineItem.getTotalAmount() * TAX_RATE;
-		}
-		return total;
+	private double calculateAmountWithoutTaxAndDiscount() {
+		return getLineItems().stream()
+					.mapToDouble(LineItem::getTotalAmount)
+					.sum();
 	}
 
 	double calculateItemTax() {
-		double totSalesTax = 0d;
-		for (LineItem lineItem : getLineItems()) {
-			double salesTax = lineItem.getTotalAmount() * TAX_RATE;
-			totSalesTax += salesTax;
-		}
-		return totSalesTax;
+		return calculateAmountWithoutTaxAndDiscount()* TAX_RATE;
 	}
 }

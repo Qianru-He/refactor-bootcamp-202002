@@ -40,7 +40,7 @@ public class OrderReceipt {
 
 	private String printFooter() {
 		String footer = "";
-		double total = order.calculateTotWithTax();
+		double total = order.calculateTotalPrice();
 
 		if(isDiscount()){
 			discount = total * DISCOUNT_RATE;
