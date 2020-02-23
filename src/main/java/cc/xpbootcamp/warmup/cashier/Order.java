@@ -31,7 +31,7 @@ public class Order {
 		double total = 0d;
 		for (LineItem lineItem : getLineItems()) {
 
-			total += lineItem.totalAmount() + lineItem.totalAmount() * TAX_RATE;
+			total += lineItem.getTotalAmount() + lineItem.getTotalAmount() * TAX_RATE;
 		}
 		return total;
 	}
@@ -39,7 +39,7 @@ public class Order {
 	double calculateItemTax() {
 		double totSalesTax = 0d;
 		for (LineItem lineItem : getLineItems()) {
-			double salesTax = lineItem.totalAmount() * TAX_RATE;
+			double salesTax = lineItem.getTotalAmount() * TAX_RATE;
 			totSalesTax += salesTax;
 		}
 		return totSalesTax;

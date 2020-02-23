@@ -19,47 +19,61 @@ public class OrderReceipt {
 	public String printReceipt() {
 		StringBuilder output = new StringBuilder();
 
-		printHeaders(output);
+		output.append(printHeaders());
 
-		printDate(output);
+		output.append(printDate());
 
-		printsLineItems(output);
+		output.append(printsLineItems());
 
-		printsTheStateTax(output, order.calculateItemTax());
+		output.append(printsTheStateTax(order.calculateItemTax()));
 
-		printTotalAmount(output, order.calculateTotWithTax());
+		output.append(printFooter(order.calculateTotWithTax()));
 
 		return output.toString();
 	}
 
-	private void printDate(StringBuilder output) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY年MM月dd日,EEEE");
-		output.append(dateFormat.format(date)).append('\n');
+	private String printDate() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY年M月dd日,EEEE");
+		return dateFormat.format(this.date) + '\n';
 	}
 
-	private void printTotalAmount(StringBuilder output, double tot) {
+	private String printFooter(double tot) {
+		String footer = "";
 		double total = tot;
 		String dayForWeek = getDayForWeek();
-		if(dayForWeek.equals(ON_SALE_DAY)){
-			output.append("折扣：").append(tot*0.02).append('\n');
+		if(isDiscount(dayForWeek)){
+			footer+="折扣："+tot*0.02+'\n';
 			total = total*0.98;
 		}
-		output.append("总价：").append(total).append('\n');
+		footer+="总价："+total+'\n';
+		return footer;
 	}
 
-	private void printsTheStateTax(StringBuilder output, double totSalesTx) {
-		output.append("税额：").append(totSalesTx).append('\n');
+	private boolean isDiscount(String dayForWeek) {
+		return dayForWeek.equals(ON_SALE_DAY);
 	}
 
-	private void printsLineItems(StringBuilder output) {
+	private String printsTheStateTax(double totSalesTx) {
+		return "税额："+totSalesTx+'\n';
+	}
+
+	private String printsLineItems() {
+		StringBuilder products = new StringBuilder();
 		for (LineItem lineItem : order.getLineItems()) {
-			output.append(lineItem.getItemInfo());
+			products.append(lineItem.getDescription()).append(',')
+					.append(lineItem.getPrice()).append('x')
+					.append(lineItem.getQuantity()).append(',')
+					.append(lineItem.getTotalAmount())
+					.append('\n');
 		}
-		output.append("--------------------\n");
+		products.append("--------------------\n");
+		return products.toString();
 	}
 
-	private void printHeaders(StringBuilder output) {
-		output.append("======老王超市，值得信赖======\n");
+
+
+	private String  printHeaders() {
+		return "======老王超市，值得信赖======\n";
 	}
 
 	private String getDayForWeek() {

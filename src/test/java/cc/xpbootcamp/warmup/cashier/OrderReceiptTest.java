@@ -13,18 +13,27 @@ import static org.hamcrest.Matchers.containsString;
 
 class OrderReceiptTest {
     @Test
-    void shouldPrintCustomerInformationOnOrder() {
-        Order order = new Order("Mr X", "Chicago, 60601", new ArrayList<>());
-        OrderReceipt receipt = new OrderReceipt(order);
+    public void shouldPrintHeadersAndDivider() {
+        List<LineItem> lineItems = new ArrayList<LineItem>() {{
+            add(new LineItem("milk", 10.0, 2));
+            add(new LineItem("biscuits", 5.0, 5));
+            add(new LineItem("chocolate", 20.0, 1));
+        }};
+        OrderReceipt receipt = new OrderReceipt(new Order(null, null,lineItems));
 
         String output = receipt.printReceipt();
-        assertThat(output, containsString("Mr X"));
-        assertThat(output, containsString("Chicago, 60601"));
+        assertThat(output,containsString("======老王超市，值得信赖======"));
+        assertThat(output,containsString("--------------------"));
     }
 
     @Test
     public void shouldPrintLineItemAndSalesTaxInformation() throws ParseException {
-        OrderReceipt receipt = getOrderReceipt();
+        List<LineItem> lineItems = new ArrayList<LineItem>() {{
+            add(new LineItem("milk", 10.0, 2));
+            add(new LineItem("biscuits", 5.0, 5));
+            add(new LineItem("chocolate", 20.0, 1));
+        }};
+        OrderReceipt receipt = new OrderReceipt(new Order(null,null, lineItems));
         String str="2020-02-17 21:08:06";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = sdf.parse(str);
@@ -37,35 +46,24 @@ class OrderReceiptTest {
         assertThat(output, containsString("税额：6.5"));
         assertThat(output, containsString("总价：71.5"));
     }
-
-    @Test
-    public void shouldPrintHeadersAndDivider() {
-        OrderReceipt receipt = getOrderReceipt();
-
-        String output = receipt.printReceipt();
-        assertThat(output,containsString("======老王超市，值得信赖======"));
-        assertThat(output,containsString("--------------------"));
-    }
     @Test
     public void shouldOnSaleWhenWednesdays() throws ParseException {
-        OrderReceipt receipt = getOrderReceipt();
+        List<LineItem> lineItems = new ArrayList<LineItem>() {{
+            add(new LineItem("milk", 10.0, 2));
+            add(new LineItem("biscuits", 5.0, 5));
+            add(new LineItem("chocolate", 20.0, 1));
+        }};
+
+        OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems));
         String str="2020-02-19 21:08:06";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = sdf.parse(str);
         receipt.setDate(date);
 
         String output = receipt.printReceipt();
+        System.out.println(output);
         assertThat(output, containsString("税额：6.5"));
         assertThat(output, containsString("折扣：1.43"));
         assertThat(output, containsString("总价：70.07"));
-    }
-
-    public OrderReceipt getOrderReceipt() {
-        List<LineItem> lineItems = new ArrayList<LineItem>() {{
-            add(new LineItem("milk", 10.0, 2));
-            add(new LineItem("biscuits", 5.0, 5));
-            add(new LineItem("chocolate", 20.0, 1));
-        }};
-        return new OrderReceipt(new Order(null, null, lineItems));
     }
 }
